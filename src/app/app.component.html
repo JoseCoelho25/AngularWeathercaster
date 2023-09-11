@@ -21,9 +21,9 @@
   </div>
   <div
     *ngIf="weather"
-    class="flex mt-20 justify-center gap-x-10 content-center"
+    class="flex mt-20 justify-center gap-x-10 content-center max-w-screen"
   >
-    <div class="text-center shadow-xl shadow-black rounded-lg px-16 ">
+    <div class="text-center shadow-xl shadow-black rounded-lg px-16">
       <p class="text-4xl mb-10 mt-8 font-bold">{{ weather.name }}</p>
       <p class="text-8xl font-bold mb-5">{{ localTime | date : "HH:mm" }}</p>
       <p>{{ localTime | date : "EEEE, d MMM" }}</p>
@@ -86,15 +86,50 @@
           <p>{{ weather.main.pressure }} hPa</p>
           <p>Pressure</p>
         </div>
+        <div class="grid grid-cols-1 content-center">
+          <div class="flex">
+            <img
+              src="assets/icons/max-temp.png"
+              alt="Max Temperature"
+              class="w-7 h-7"
+            />
+            <div>
+              <p>Max Temp</p>
+              <p>{{ weather.main.temp_max | temperatureRound }}ºC</p>
+            </div>
+          </div>
+          <div class="flex">
+            <img
+              src="assets/icons/min-temp.png"
+              alt="Min temperature"
+              class="w-7 h-7"
+            />
+            <div>
+              <p>Min Temp</p>
+              <p>{{ weather.main.temp_min | temperatureRound }}ªC</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <!-- <h1>Weather Information</h1>
-    <p>City: {{ weather.name }}</p>
-    <p>Latitude: {{ weather.coord.lat }}</p>
-    <p>Longitude: {{ weather.coord.lon }}</p>
-    <p>Humidity: {{ weather.main.humidity }}</p>
-    <p>Pressure: {{ weather.main.pressure }}</p>
-    <p>Temperature: {{ weather.main.temp }}</p>
-    <p>Description: {{ weather.weather[0].description }}</p> -->
+  </div>
+  <div *ngIf="forecast" class="flex text-center">
+    <div
+      *ngFor="let item of forecast.list.slice(1, 6); let i = index"
+      class="flex-col"
+    >
+      <p>{{ item.dt_txt | date : "HH:mm" }}</p>
+      <img
+        [src]="'assets/icons/' + item.weather[0].icon + '.png'"
+        alt="Weather Image"
+      />
+      <p>{{ item.main.temp | temperatureRound }}ºC</p>
+      <img
+        src="assets/icons/navigation.png"
+        alt="Navigation arrow"
+        [style.transform]="'rotate(' + item.wind.deg + 'deg)'"
+      />
+      <p>{{ item.wind.speed | temperatureRound }}km/h</p>
+    </div>
   </div>
 </div>

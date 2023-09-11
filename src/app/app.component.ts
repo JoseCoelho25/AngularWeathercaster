@@ -10,6 +10,7 @@ export class AppComponent {
   title = 'AngularWeathercaster';
   location = { cityName: 'London', countryCode: 'uk' };
   weather: any = undefined;
+  forecast: any = undefined;
   date: Date = new Date();
   timezoneOffset: number = 0;
   currentUtcTime: Date = new Date();
@@ -19,6 +20,7 @@ export class AppComponent {
 
   ngOnInit() {
     this.getWeather(this.location.cityName, this.location.countryCode);
+    this.get5DayForecast(this.location.cityName, this.location.countryCode)
   }
 
   getWeather(cityName: string, countryCode: string) {
@@ -39,9 +41,22 @@ export class AppComponent {
     );
   }
 
+  get5DayForecast(cityName: string, countryCode:string) {
+    this.weatherService.get5DayForecast(cityName, countryCode).subscribe(
+      (res) => {
+        console.log(res);
+        this.forecast = res;
+      },
+      (err) => {
+        console.log(err);
+      }
+    )
+  }
+
   submitLocation(cityName: HTMLInputElement, countryCode: HTMLInputElement) {
     if (cityName.value && countryCode.value) {
       this.getWeather(cityName.value, countryCode.value);
+      this.get5DayForecast(cityName.value, countryCode.value);
 
       cityName.value = '';
       countryCode.value = '';
