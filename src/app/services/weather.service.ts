@@ -5,7 +5,7 @@ import {HttpClient} from '@angular/common/http'
   providedIn: 'root'
 })
 export class WeatherService {
-  apiKey: string = 'f297ac39de31624fc57ff03f565ac5c8';
+  apiKey: string = '';
   URI: string = '';
 
   constructor(private http: HttpClient) {
