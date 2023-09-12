@@ -20,7 +20,7 @@ export class AppComponent {
 
   ngOnInit() {
     this.getWeather(this.location.cityName, this.location.countryCode);
-    this.get5DayForecast(this.location.cityName, this.location.countryCode)
+    this.get5DayForecast(this.location.cityName, this.location.countryCode);
   }
 
   getWeather(cityName: string, countryCode: string) {
@@ -41,7 +41,7 @@ export class AppComponent {
     );
   }
 
-  get5DayForecast(cityName: string, countryCode:string) {
+  get5DayForecast(cityName: string, countryCode: string) {
     this.weatherService.get5DayForecast(cityName, countryCode).subscribe(
       (res) => {
         console.log(res);
@@ -50,7 +50,7 @@ export class AppComponent {
       (err) => {
         console.log(err);
       }
-    )
+    );
   }
 
   submitLocation(cityName: HTMLInputElement, countryCode: HTMLInputElement) {
@@ -65,5 +65,14 @@ export class AppComponent {
     }
     cityName.focus();
     return false;
+  }
+
+  filterForecastByTime() {
+    if (this.forecast) {
+      return this.forecast.list.filter((item: any) =>
+        item.dt_txt.endsWith('12:00:00')
+      );
+    }
+    return [];
   }
 }

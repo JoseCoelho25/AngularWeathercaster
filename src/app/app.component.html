@@ -1,4 +1,4 @@
-<div>
+<div class="mb-20 mx-10">
   <div class="flex justify-center mt-20">
     <form (submit)="submitLocation(cityName, cityCode)" class="flex gap-x-4">
       <input
@@ -23,11 +23,12 @@
     *ngIf="weather"
     class="flex mt-20 justify-center gap-x-10 content-center max-w-screen"
   >
-    <div class="text-center shadow-xl shadow-black rounded-lg px-16">
+    <div class="text-center shadow-xl shadow-black rounded-lg px-16 w-2/5">
       <p class="text-4xl mb-10 mt-8 font-bold">{{ weather.name }}</p>
       <p class="text-8xl font-bold mb-5">{{ localTime | date : "HH:mm" }}</p>
       <p>{{ localTime | date : "EEEE, d MMM" }}</p>
     </div>
+    <!-- weather details -->
     <div
       class="flex text-center shadow-xl shadow-black rounded-lg p-4 w-3/5 justify-center"
     >
@@ -113,24 +114,48 @@
       </div>
     </div>
   </div>
-  <div *ngIf="forecast" class="flex text-center">
-    <div
-      *ngFor="let item of forecast.list.slice(1, 6); let i = index"
-      class="flex-col"
-    >
-      <p>{{ item.dt_txt | date : "HH:mm" }}</p>
-      <img
-        [src]="'assets/icons/' + item.weather[0].icon + '.png'"
-        alt="Weather Image"
-      />
-      <p>{{ item.main.temp | temperatureRound }}ºC</p>
-      <img
-        src="assets/icons/navigation.png"
-        alt="Navigation arrow"
-        [style.transform]="'rotate(' + item.wind.deg + 'deg)'"
-      />
-      <p>{{ item.wind.speed | temperatureRound }}km/h</p>
+
+  <div *ngIf="forecast" class="flex mt-10 gap-x-10 justify-center content-center max-w-screen">
+    <!-- 5 Days forecast -->
+    <div class="shadow-xl shadow-black rounded-lg w-1/3">
+      <h1 class="text-2xl text-center mt-8">5 Days Forecast:</h1>
+      <div
+        *ngFor="let item of filterForecastByTime(); let i = index"
+        class=" flex-col h-16  content-around"
+      >
+      <div class="flex w-full gap-x-8 px-4 items-center mx-auto">
+        <img
+            [src]="'assets/icons/' + item.weather[0].icon + '.png'"
+            alt="Weather Image"
+            class="w-10 h-10"
+          />
+      <p>{{item.main.temp_max | temperatureRound}}ºC</p>
+      <p class="text-md">{{ item.dt_txt | date: "EEEE, d MMM" }}</p>
+</div>
+    </div>
+    </div>
+    <!-- Hourly forecast -->
+    <div class="shadow-xl shadow-black rounded-lg py-10 px-20 w-2/3 ">
+      <h1 class="text-2xl text-center">Hourly Forecast:</h1>
+      <div class="flex text-center mt-5 gap-x-4 justify-around h-4/5">
+        <div
+          *ngFor="let item of forecast.list.slice(1, 6); let i = index"
+          class=" flex-col bg-[#373636] rounded-2xl p-2 "
+        >
+          <p>{{ item.dt_txt | date : "HH:mm" }}</p>
+          <img
+            [src]="'assets/icons/' + item.weather[0].icon + '.png'"
+            alt="Weather Image"
+          />
+          <p>{{ item.main.temp | temperatureRound }}ºC</p>
+          <img
+            src="assets/icons/navigation.png"
+            alt="Navigation arrow"
+            [style.transform]="'rotate(' + item.wind.deg + 'deg)'"
+          />
+          <p>{{ item.wind.speed | temperatureRound }}km/h</p>
+        </div>
+      </div>
     </div>
   </div>
-  batata
 </div>
